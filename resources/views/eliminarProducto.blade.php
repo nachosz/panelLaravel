@@ -1,0 +1,58 @@
+@extends('layouts.plantilla')
+
+    @section('contenido')
+
+        <h1>Baja de un producto</h1>
+
+        <div class="row alert bg-light border-danger col-8 mx-auto p-2">
+            <div class="col">
+                <img src="/productos/{{ $producto->prdImagen }}" class="img-thumbnail">
+            </div>
+            <div class="col text-danger align-self-center">
+            <form action="/eliminarProducto" method="post">
+                @csrf
+                @method('delete')
+                <h2>{{ $producto->prdNombre }}</h2>
+                Categoría: {{ $producto->relCategoria->catNombre }} <br>
+                Marca:  {{ $producto->relMarca->mkNombre }} <br>
+                Presentación: {{ $producto->prdPresentacion }} <br>
+                Precio: ${{ $producto->prdPrecio }}
+
+                <input type="hidden" name="idProducto"
+                       value="{{ $producto->idProducto }}">
+                
+                <a href="/adminProductos" class="btn btn-outline-secondary btn-block">
+                    Volver a panel
+                </a>
+                <br>
+
+            </form>
+            </div>
+        </form>
+
+            <script>
+                /*
+                Swal.fire(
+                    'Título de la ventana',
+                    'descripción de la ventana, blah, blah',
+                    'warning'
+                )
+                */
+                Swal.fire({
+                    title: '¿Seguro desea eliminar el producto?',
+                    type: 'error',
+                    showCancelButton: true,
+                    cancelButtonColor: '#8fc87a',
+                    cancelButtonText: 'No, no lo quiero eliminar',
+                    confirmButtonColor: '#d00',
+                    confirmButtonText: 'Si, lo quiero eliminar'
+                }).then((result) => {
+                    if (!result.value) {
+                        //redirección a adminProductos
+                        window.location = '/adminProductos'
+                    }
+                })
+            </script>
+
+
+    @endsection
